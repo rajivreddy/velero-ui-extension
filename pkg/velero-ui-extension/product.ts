@@ -1,6 +1,6 @@
 import { IPlugin } from '@shell/core/types';
 
-const PRODUCT_NAME = 'velero';
+const PRODUCT_NAME = 'velero-ui-extension';
 const DASHBOARD_PAGE = 'dashboard';
 
 // Velero CRD type identifiers (following Rancher naming convention: group.resource)
@@ -31,7 +31,7 @@ export function init($plugin: IPlugin, store: any) {
   // Register as cluster-level product (appears in each cluster's navigation)
   // Weight is set low (-1) to position it at the bottom before "More Resources"
   product({
-    icon:                'backup',
+    icon:                'velero',  // Custom Velero icon registered in index.ts
     inStore:             'cluster',  // This makes it appear in each cluster tab
     weight:              75,
     showNamespaceFilter: true,       // Enable namespace filtering for Velero resources

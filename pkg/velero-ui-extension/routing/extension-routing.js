@@ -6,7 +6,7 @@ import ViewNamespacedResource from '@shell/pages/c/_cluster/_product/_resource/_
 import Dashboard from '../pages/index.vue';
 
 // Product name - should match what's defined in product.ts
-const PRODUCT_NAME = 'velero';
+const PRODUCT_NAME = 'velero-ui-extension';
 const DASHBOARD_PAGE = 'dashboard';
 
 // Cluster-level routes (available in each cluster tab)

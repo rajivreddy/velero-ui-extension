@@ -42,7 +42,7 @@ A Rancher UI Extension for managing [Velero](https://velero.io/) backup and rest
 
 1. In Rancher UI, go to **Apps** → **Repositories**
 2. Click **Create** and add:
-   - **Name**: `rancher-velero-extension`
+   - **Name**: `velero-ui-extension-extension`
    - **Index URL**: `https://<your-org>.github.io/<your-repo>`
 3. Go to **Extensions** → **Available**
 4. Find **Rancher Velero** and click **Install**
@@ -52,7 +52,7 @@ A Rancher UI Extension for managing [Velero](https://velero.io/) backup and rest
 1. In Rancher UI, go to **Extensions**
 2. Click the three-dot menu → **Manage Extension Catalog**
 3. Click **Import Extension Catalog**
-4. Enter the image: `ghcr.io/rajivreddy/velero-ui-extension/rancher-velero:<version>`
+4. Enter the image: `ghcr.io/rajivreddy/velero-ui-extension/velero-ui-extension:<version>`
 
 ## Development
 
@@ -66,14 +66,14 @@ A Rancher UI Extension for managing [Velero](https://velero.io/) backup and rest
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-org>/rancher-velero.git
-cd rancher-velero
+git clone https://github.com/<your-org>/velero-ui-extension.git
+cd velero-ui-extension
 
 # Install dependencies
 yarn install
 
 # Build the extension
-yarn build-pkg rancher-velero
+yarn build-pkg velero-ui-extension
 
 # Serve the extension for development
 yarn serve-pkgs
@@ -82,7 +82,7 @@ yarn serve-pkgs
 ### Load in Rancher
 
 1. Enable developer load in Rancher: Navigate to Extensions and enable Developer Load
-2. Enter: `http://127.0.0.1:4500/rancher-velero-0.1.0/rancher-velero-0.1.0.umd.min.js`
+2. Enter: `http://127.0.0.1:4500/velero-ui-extension-0.1.0/velero-ui-extension-0.1.0.umd.min.js`
 
 ## Publishing
 
@@ -105,9 +105,9 @@ yarn serve-pkgs
 
 To publish the extension as a Helm chart:
 
-1. Update the version in `pkg/rancher-velero/package.json`
-2. Create a new GitHub Release with a tag matching: `rancher-velero-<version>`
-   - Example: `rancher-velero-0.1.0`, `rancher-velero-1.0.0`
+1. Update the version in `pkg/velero-ui-extension/package.json`
+2. Create a new GitHub Release with a tag matching: `velero-ui-extension-<version>`
+   - Example: `velero-ui-extension-0.1.0`, `velero-ui-extension-1.0.0`
 3. The GitHub Action will automatically build and publish to the `gh-pages` branch
 
 **Tag Format**: `<pkg-folder-name>-<version>`
@@ -117,8 +117,8 @@ To publish the extension as a Helm chart:
 To publish the extension as an ECI for air-gapped environments:
 
 1. Update the version in the root `package.json`
-2. Create a new GitHub Release with a tag matching: `rancher-velero-extension-<version>`
-   - Example: `rancher-velero-extension-0.1.0`
+2. Create a new GitHub Release with a tag matching: `velero-ui-extension-extension-<version>`
+   - Example: `velero-ui-extension-extension-0.1.0`
 3. The GitHub Action will automatically build and push to `ghcr.io`
 
 **Tag Format**: `<root-package-name>-<version>`
@@ -150,19 +150,19 @@ The extension will appear in **Extensions** → **Available**.
 Import the ECI in Rancher:
 
 ```
-ghcr.io/rajivreddy/velero-ui-extension/rancher-velero:<version>
+ghcr.io/rajivreddy/velero-ui-extension/velero-ui-extension:<version>
 ```
 
 ## Project Structure
 
 ```
-rancher-velero/
+velero-ui-extension/
 ├── .github/
 │   └── workflows/
 │       ├── build-extension-charts.yml  # Helm chart publishing
 │       └── build-extension-catalog.yml # ECI publishing
 ├── pkg/
-│   └── rancher-velero/
+│   └── velero-ui-extension/
 │       ├── index.ts                    # Extension entry point
 │       ├── product.ts                  # Product registration
 │       ├── package.json                # Extension metadata

@@ -29,7 +29,7 @@ updates:
 
   # Extension package dependencies
   - package-ecosystem: "npm"
-    directory: "/pkg/rancher-velero"
+    directory: "/pkg/velero-ui-extension"
     schedule:
       interval: "weekly"
       day: "monday"

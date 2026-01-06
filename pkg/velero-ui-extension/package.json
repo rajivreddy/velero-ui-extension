@@ -1,6 +1,6 @@
 {
-  "name": "rancher-velero",
-  "description": "rancher-velero plugin",
+  "name": "velero-ui-extension",
+  "description": "Velero UI Extension for Rancher",
   "version": "0.1.0",
   "private": false,
   "rancher": {

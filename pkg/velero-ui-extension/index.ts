@@ -9,6 +9,12 @@ export default function(plugin: IPlugin): void {
   // Provide plugin metadata from package.json
   plugin.metadata = require('./package.json');
 
+  // Register custom Velero icon
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const veleroIcon = require('./assets/velero-logo.svg');
+
+  plugin.register('icon', 'velero', veleroIcon);
+
   // Load Velero product
   plugin.addProduct(require('./product'));
 
