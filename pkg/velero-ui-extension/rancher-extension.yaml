@@ -1,0 +1,19 @@
+apiVersion: catalog.cattle.io/v1
+kind: UIExtension
+metadata:
+  name: velero-ui-extension
+spec:
+  version: 0.1.0
+  displayName: Velero Backup & Restore
+  description: A Rancher UI extension for managing Velero backups, restores, schedules, and storage locations
+  category: Backup
+  icon: https://velero.io/img/Velero.svg
+  keywords:
+    - velero
+    - backup
+    - restore
+    - disaster-recovery
+    - kubernetes
+  author: Rancher Labs
+  license: Apache-2.0
+  repository: https://github.com/rancher/velero-ui-extension

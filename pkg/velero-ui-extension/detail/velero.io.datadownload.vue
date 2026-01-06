@@ -1,0 +1,363 @@
+<script>
+import ResourceTabs from '@shell/components/form/ResourceTabs';
+import Tab from '@shell/components/Tabbed/Tab';
+
+export default {
+  name: 'VeleroDataDownloadDetail',
+
+  components: {
+    ResourceTabs,
+    Tab,
+  },
+
+  props: {
+    value: {
+      type:     Object,
+      required: true,
+    },
+  },
+
+  computed: {
+    phase() {
+      return this.value.status?.phase || 'Unknown';
+    },
+
+    phaseClass() {
+      switch (this.phase) {
+      case 'Completed':
+        return 'status-success';
+      case 'InProgress':
+        return 'status-info';
+      case 'Failed':
+        return 'status-error';
+      case 'New':
+      case 'Accepted':
+      case 'Prepared':
+        return 'status-warning';
+      case 'Canceling':
+      case 'Canceled':
+        return 'status-muted';
+      default:
+        return 'status-info';
+      }
+    },
+
+    snapshotID() {
+      return this.value.spec?.snapshotID || '-';
+    },
+
+    targetNamespace() {
+      return this.value.spec?.targetNamespace || '-';
+    },
+
+    targetVolume() {
+      return this.value.spec?.targetVolume || null;
+    },
+
+    backupStorageLocation() {
+      return this.value.spec?.backupStorageLocation || '-';
+    },
+
+    dataMover() {
+      return this.value.spec?.dataMover || 'velero';
+    },
+
+    operationTimeout() {
+      return this.value.spec?.operationTimeout || '-';
+    },
+
+    nodeName() {
+      return this.value.status?.node || '-';
+    },
+
+    progress() {
+      const progress = this.value.status?.progress;
+
+      if (!progress) {
+        return null;
+      }
+
+      return {
+        bytesDone:  progress.bytesDone || 0,
+        totalBytes: progress.totalBytes || 0,
+      };
+    },
+
+    progressPercentage() {
+      if (!this.progress || !this.progress.totalBytes) {
+        return 0;
+      }
+
+      return Math.round((this.progress.bytesDone / this.progress.totalBytes) * 100);
+    },
+
+    startTimestamp() {
+      const time = this.value.status?.startTimestamp;
+
+      if (!time) {
+        return '-';
+      }
+
+      return new Date(time).toLocaleString();
+    },
+
+    completionTimestamp() {
+      const time = this.value.status?.completionTimestamp;
+
+      if (!time) {
+        return '-';
+      }
+
+      return new Date(time).toLocaleString();
+    },
+
+    message() {
+      return this.value.status?.message || '';
+    },
+  },
+
+  methods: {
+    formatBytes(bytes) {
+      if (bytes === 0) {
+        return '0 Bytes';
+      }
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+      return `${ parseFloat((bytes / Math.pow(k, i)).toFixed(2)) } ${ sizes[i] }`;
+    },
+  },
+};
+</script>
+
+<template>
+  <ResourceTabs
+    :value="value"
+    :mode="mode"
+  >
+    <Tab
+      name="overview"
+      label="Overview"
+      :weight="100"
+    >
+      <div class="row mb-20">
+        <div class="col span-12">
+          <h3>Data Download Status</h3>
+        </div>
+      </div>
+
+      <div class="detail-cards">
+        <div class="detail-card">
+          <h4>Status</h4>
+          <span :class="['status-badge', phaseClass]">{{ phase }}</span>
+        </div>
+
+        <div class="detail-card">
+          <h4>Data Mover</h4>
+          <span>{{ dataMover }}</span>
+        </div>
+
+        <div class="detail-card">
+          <h4>Target Namespace</h4>
+          <span>{{ targetNamespace }}</span>
+        </div>
+
+        <div class="detail-card">
+          <h4>Storage Location</h4>
+          <span>{{ backupStorageLocation }}</span>
+        </div>
+      </div>
+
+      <div v-if="progress && (phase === 'InProgress' || phase === 'Prepared')" class="row mb-20 mt-20">
+        <div class="col span-12">
+          <h3>Progress</h3>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div
+                class="progress-fill"
+                :style="{ width: progressPercentage + '%' }"
+              />
+            </div>
+            <p class="progress-text">
+              {{ formatBytes(progress.bytesDone) }} / {{ formatBytes(progress.totalBytes) }} ({{ progressPercentage }}%)
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="message" class="row mb-20 mt-20">
+        <div class="col span-12">
+          <div class="error-box">
+            <strong>Message:</strong> {{ message }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-20 mt-20">
+        <div class="col span-12">
+          <h3>Timing</h3>
+        </div>
+      </div>
+
+      <div class="detail-cards">
+        <div class="detail-card">
+          <h4>Started</h4>
+          <span>{{ startTimestamp }}</span>
+        </div>
+
+        <div class="detail-card">
+          <h4>Completed</h4>
+          <span>{{ completionTimestamp }}</span>
+        </div>
+
+        <div class="detail-card">
+          <h4>Operation Timeout</h4>
+          <span>{{ operationTimeout }}</span>
+        </div>
+      </div>
+
+      <div class="row mb-20 mt-20">
+        <div class="col span-12">
+          <h3>Configuration</h3>
+        </div>
+      </div>
+
+      <div class="detail-cards">
+        <div class="detail-card">
+          <h4>Node</h4>
+          <span>{{ nodeName }}</span>
+        </div>
+
+        <div v-if="snapshotID !== '-'" class="detail-card wide">
+          <h4>Snapshot ID</h4>
+          <code>{{ snapshotID }}</code>
+        </div>
+      </div>
+
+      <div v-if="targetVolume" class="row mb-20 mt-20">
+        <div class="col span-12">
+          <h3>Target Volume</h3>
+        </div>
+      </div>
+
+      <div v-if="targetVolume" class="detail-cards">
+        <div class="detail-card">
+          <h4>PVC</h4>
+          <span>{{ targetVolume.pvc || '-' }}</span>
+        </div>
+
+        <div class="detail-card">
+          <h4>PV</h4>
+          <span>{{ targetVolume.pv || '-' }}</span>
+        </div>
+      </div>
+    </Tab>
+  </ResourceTabs>
+</template>
+
+<style lang="scss" scoped>
+.detail-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.detail-card {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 15px;
+
+  h4 {
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  span, code {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  code {
+    background: var(--body-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    word-break: break-all;
+  }
+
+  &.wide {
+    grid-column: span 2;
+  }
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.status-success {
+  background-color: var(--success);
+  color: white;
+}
+
+.status-warning {
+  background-color: var(--warning);
+  color: white;
+}
+
+.status-error {
+  background-color: var(--error);
+  color: white;
+}
+
+.status-info {
+  background-color: var(--info);
+  color: white;
+}
+
+.status-muted {
+  background-color: var(--muted);
+  color: white;
+}
+
+.error-box {
+  background-color: var(--error-bg, rgba(220, 53, 69, 0.1));
+  border: 1px solid var(--error-border, rgba(220, 53, 69, 0.3));
+  border-radius: 4px;
+  padding: 15px;
+  color: var(--error-text, var(--body-text));
+}
+
+.progress-container {
+  margin-top: 10px;
+}
+
+.progress-bar {
+  height: 20px;
+  background-color: var(--input-bg);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  margin-top: 5px;
+  font-size: 13px;
+  color: var(--muted);
+}
+</style>
