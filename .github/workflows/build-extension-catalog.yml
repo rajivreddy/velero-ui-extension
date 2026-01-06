@@ -1,0 +1,47 @@
+# Build and Release Extension Catalog Image (ECI)
+#
+# This workflow builds an Extension Catalog Image and publishes it to GitHub 
+# Container Registry (ghcr.io). ECIs are used for private repositories and 
+# air-gapped environments.
+#
+# Prerequisites:
+#   1. Ensure GitHub Container Registry is enabled for your organization
+#   2. The GITHUB_TOKEN automatically has packages:write permission
+#
+# Release Process:
+#   1. Update version in root package.json (for ECI)
+#   2. Create a new GitHub Release with tag matching: rancher-velero-extension-X.Y.Z
+#      Example: rancher-velero-extension-0.1.0
+#      NOTE: ECI uses root package.json name, not the pkg folder name
+#   3. This workflow will automatically build and push the ECI
+#
+# Consuming the ECI in Rancher:
+#   1. Import the ECI in Extensions page
+#   2. Image: ghcr.io/<org>/<repo>/rancher-velero:X.Y.Z
+
+name: Build and Release Extension Catalog
+
+on:
+  workflow_dispatch:
+  release:
+    types: [released]
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./
+
+jobs:
+  build-extension-catalog:
+    uses: rancher/dashboard/.github/workflows/build-extension-catalog.yml@master
+    permissions:
+      actions: write
+      contents: read
+      packages: write
+    with:
+      registry_target: ghcr.io
+      registry_user: ${{ github.actor }}
+      tagged_release: ${{ github.ref_name }}
+    secrets: 
+      registry_token: ${{ secrets.ACTION_TOKEN }}
+

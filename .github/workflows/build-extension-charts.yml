@@ -1,0 +1,44 @@
+# Build and Release Extension Charts
+#
+# This workflow builds Helm charts for the Rancher Velero extension and publishes 
+# them to GitHub Pages (gh-pages branch).
+#
+# Prerequisites:
+#   1. Create a 'gh-pages' branch: git checkout --orphan gh-pages && git reset --hard && git commit --allow-empty -m "Init" && git push origin gh-pages
+#   2. Enable GitHub Pages in repository Settings > Pages > Source: "GitHub Actions"
+#
+# Release Process:
+#   1. Update version in pkg/rancher-velero/package.json
+#   2. Create a new GitHub Release with tag matching: rancher-velero-X.Y.Z
+#      Example: rancher-velero-0.1.0, rancher-velero-1.0.0
+#   3. This workflow will automatically build and publish the Helm chart
+#
+# Consuming the Helm Chart in Rancher:
+#   1. Go to Apps > Repositories in Rancher UI
+#   2. Add a new repository with URL: https://<org>.github.io/<repo>
+#   3. The extension will appear in Extensions > Available
+
+name: Build and Release Extension Charts
+
+on:
+  workflow_dispatch:
+  release:  
+    types: [released]
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./
+
+jobs:
+  build-extension-charts:
+    uses: rancher/dashboard/.github/workflows/build-extension-charts.yml@master
+    permissions:
+      actions: write
+      contents: write
+      deployments: write
+      pages: write
+    with:
+      target_branch: gh-pages
+      tagged_release: ${{ github.ref_name }}
+

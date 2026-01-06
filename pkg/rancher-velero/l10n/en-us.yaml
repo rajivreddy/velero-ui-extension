@@ -1,0 +1,53 @@
+velero:
+  dashboard: Dashboard
+  storage:
+    label: Storage
+  operations:
+    label: Operations
+  requests:
+    label: Requests
+
+  # CRD Type Labels
+  backup:
+    label: Backup
+    description: A Velero backup of Kubernetes resources and volumes
+  restore:
+    label: Restore
+    description: A Velero restore operation from a backup
+  schedule:
+    label: Schedule
+    description: A scheduled backup policy
+  backupstoragelocation:
+    label: Backup Storage Location
+    description: A storage location for backups (S3, GCS, Azure, etc.)
+  volumesnapshotlocation:
+    label: Volume Snapshot Location
+    description: A location for volume snapshots
+  podvolumebackup:
+    label: Pod Volume Backup
+    description: A file-level backup of a pod volume
+  podvolumerestore:
+    label: Pod Volume Restore
+    description: A file-level restore of a pod volume
+  deletebackuprequest:
+    label: Delete Backup Request
+    description: A request to delete a backup and its data
+  downloadrequest:
+    label: Download Request
+    description: A request to download backup data
+  serverstatusrequest:
+    label: Server Status Request
+    description: A request to get Velero server status
+  backuprepository:
+    label: Backup Repository
+    description: A restic/kopia backup repository
+  datadownload:
+    label: Data Download
+    description: A CSI snapshot data download operation
+  dataupload:
+    label: Data Upload
+    description: A CSI snapshot data upload operation
+
+# Product navigation
+product:
+  velero: Velero
