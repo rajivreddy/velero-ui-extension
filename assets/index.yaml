@@ -31,12 +31,12 @@ entries:
       catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
     apiVersion: v2
     appVersion: 0.1.0
-    created: "2026-01-06T09:03:51.55631217Z"
-    description: velero-ui-extension plugin
-    digest: f42b08c14ca04b229ffa943c08171a67f642a705ab1886efe64bbc1f9cd904a7
+    created: "2026-01-07T06:44:41.161275281Z"
+    description: Velero UI Extension for Rancher
+    digest: bd967d9700b79e4e73a9149e8a4b049dccc5b469575ec9cc701bded1e2b25f6b
     name: velero-ui-extension
     type: application
     urls:
     - assets/velero-ui-extension/velero-ui-extension-0.1.0.tgz
     version: 0.1.0
-generated: "2026-01-07T06:42:07.174896521Z"
+generated: "2026-01-07T06:44:41.160876099Z"
