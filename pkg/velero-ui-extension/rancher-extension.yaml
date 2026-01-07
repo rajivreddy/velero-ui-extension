@@ -3,7 +3,7 @@ kind: UIExtension
 metadata:
   name: velero-ui-extension
 spec:
-  version: 0.1.0
+  version: 0.1.1
   displayName: Velero Backup & Restore
   description: A Rancher UI extension for managing Velero backups, restores, schedules, and storage locations
   category: Backup

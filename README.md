@@ -82,7 +82,7 @@ yarn serve-pkgs
 ### Load in Rancher
 
 1. Enable developer load in Rancher: Navigate to Extensions and enable Developer Load
-2. Enter: `http://127.0.0.1:4500/velero-ui-extension-0.1.0/velero-ui-extension-0.1.0.umd.min.js`
+2. Enter: `http://127.0.0.1:4500/velero-ui-extension-0.1.1/velero-ui-extension-0.1.1.umd.min.js`
 
 ## Publishing
 
