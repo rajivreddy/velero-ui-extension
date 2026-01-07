@@ -1,6 +1,6 @@
 import { IPlugin } from '@shell/core/types';
 
-export const PRODUCT_NAME = 'velero-ui-extension';
+export const PRODUCT_NAME = 'velero';
 
 export const VELERO_TYPES = {
   BACKUP:                   'velero.io.backup',

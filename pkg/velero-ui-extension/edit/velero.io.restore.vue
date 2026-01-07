@@ -107,25 +107,25 @@ export default {
 
   methods: {
     updateIncludedNamespaces(val) {
-      this.$set(this.value.spec, 'includedNamespaces', val);
+      this.value.spec.includedNamespaces = val;
     },
     updateExcludedNamespaces(val) {
-      this.$set(this.value.spec, 'excludedNamespaces', val);
+      this.value.spec.excludedNamespaces = val;
     },
     updateIncludedResources(val) {
-      this.$set(this.value.spec, 'includedResources', val);
+      this.value.spec.includedResources = val;
     },
     updateExcludedResources(val) {
-      this.$set(this.value.spec, 'excludedResources', val);
+      this.value.spec.excludedResources = val;
     },
     updateLabels(val) {
       if (!this.value.spec.labelSelector) {
-        this.$set(this.value.spec, 'labelSelector', { matchLabels: {} });
+        this.value.spec.labelSelector = { matchLabels: {} };
       }
-      this.$set(this.value.spec.labelSelector, 'matchLabels', val);
+      this.value.spec.labelSelector.matchLabels = val;
     },
     updateNamespaceMapping(val) {
-      this.$set(this.value.spec, 'namespaceMapping', val);
+      this.value.spec.namespaceMapping = val;
     },
   },
 };

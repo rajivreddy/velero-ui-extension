@@ -78,17 +78,17 @@ export default {
 
     // Ensure credential exists and has proper structure for both create and edit
     if (!this.value.spec.credential || typeof this.value.spec.credential !== 'object') {
-      this.$set(this.value.spec, 'credential', {
+      this.value.spec.credential = {
         name: '',
         key:  'cloud',
-      });
+      };
     } else {
       // Ensure credential has name and key properties
       if (this.value.spec.credential.name === undefined) {
-        this.$set(this.value.spec.credential, 'name', '');
+        this.value.spec.credential.name = '';
       }
       if (this.value.spec.credential.key === undefined) {
-        this.$set(this.value.spec.credential, 'key', 'cloud');
+        this.value.spec.credential.key = 'cloud';
       }
     }
 
@@ -181,23 +181,23 @@ export default {
     'value.spec.provider'(newVal, oldVal) {
       // Reset config when provider changes
       if (newVal !== oldVal) {
-        this.$set(this.value.spec, 'config', {});
+        this.value.spec.config = {};
       }
     },
   },
 
   methods: {
     updateConfig(val) {
-      this.$set(this.value.spec, 'config', val);
+      this.value.spec.config = val;
     },
     setCredential(name, key) {
       if (name && key) {
-        this.$set(this.value.spec, 'credential', {
+        this.value.spec.credential = {
           name,
           key,
-        });
+        };
       } else {
-        this.$set(this.value.spec, 'credential', null);
+        this.value.spec.credential = null;
       }
     },
   },

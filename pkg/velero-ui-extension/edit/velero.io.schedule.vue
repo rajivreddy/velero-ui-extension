@@ -154,39 +154,39 @@ export default {
   watch: {
     selectedPreset(val) {
       if (val !== 'custom') {
-        this.$set(this.value.spec, 'schedule', val);
+        this.value.spec.schedule = val;
       } else {
-        this.$set(this.value.spec, 'schedule', this.customCron);
+        this.value.spec.schedule = this.customCron;
       }
     },
     customCron(val) {
       if (this.selectedPreset === 'custom') {
-        this.$set(this.value.spec, 'schedule', val);
+        this.value.spec.schedule = val;
       }
     },
   },
 
   methods: {
     updateIncludedNamespaces(val) {
-      this.$set(this.value.spec.template, 'includedNamespaces', val);
+      this.value.spec.template.includedNamespaces = val;
     },
     updateExcludedNamespaces(val) {
-      this.$set(this.value.spec.template, 'excludedNamespaces', val);
+      this.value.spec.template.excludedNamespaces = val;
     },
     updateIncludedResources(val) {
-      this.$set(this.value.spec.template, 'includedResources', val);
+      this.value.spec.template.includedResources = val;
     },
     updateExcludedResources(val) {
-      this.$set(this.value.spec.template, 'excludedResources', val);
+      this.value.spec.template.excludedResources = val;
     },
     updateVolumeSnapshotLocations(val) {
-      this.$set(this.value.spec.template, 'volumeSnapshotLocations', val);
+      this.value.spec.template.volumeSnapshotLocations = val;
     },
     updateLabels(val) {
       if (!this.value.spec.template.labelSelector) {
-        this.$set(this.value.spec.template, 'labelSelector', { matchLabels: {} });
+        this.value.spec.template.labelSelector = { matchLabels: {} };
       }
-      this.$set(this.value.spec.template.labelSelector, 'matchLabels', val);
+      this.value.spec.template.labelSelector.matchLabels = val;
     },
   },
 };

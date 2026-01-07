@@ -105,23 +105,23 @@ export default {
     'value.spec.provider'(newVal, oldVal) {
       // Reset config when provider changes
       if (newVal !== oldVal) {
-        this.$set(this.value.spec, 'config', {});
+        this.value.spec.config = {};
       }
     },
   },
 
   methods: {
     updateConfig(val) {
-      this.$set(this.value.spec, 'config', val);
+      this.value.spec.config = val;
     },
     setCredential(name, key) {
       if (name && key) {
-        this.$set(this.value.spec, 'credential', {
+        this.value.spec.credential = {
           name,
           key,
-        });
+        };
       } else {
-        this.$set(this.value.spec, 'credential', null);
+        this.value.spec.credential = null;
       }
     },
   },
