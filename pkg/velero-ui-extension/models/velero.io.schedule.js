@@ -5,10 +5,6 @@ export default class VeleroSchedule extends SteveModel {
     return true;
   }
 
-  get canCustomEdit() {
-    return true;
-  }
-
   get state() {
     if (this.spec?.paused) {
       return 'Paused';

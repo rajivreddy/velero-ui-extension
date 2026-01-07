@@ -5,10 +5,6 @@ export default class VeleroVolumeSnapshotLocation extends SteveModel {
     return true;
   }
 
-  get canCustomEdit() {
-    return true;
-  }
-
   get provider() {
     return this.spec?.provider || '-';
   }

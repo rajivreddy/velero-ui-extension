@@ -5,10 +5,6 @@ export default class VeleroBackup extends SteveModel {
     return true;
   }
 
-  get canCustomEdit() {
-    return true;
-  }
-
   get state() {
     return this.status?.phase || 'Unknown';
   }
