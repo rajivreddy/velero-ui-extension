@@ -1,6 +1,14 @@
 import SteveModel from '@shell/plugins/steve/steve-class';
 
 export default class VeleroSchedule extends SteveModel {
+  get canUpdate() {
+    return true;
+  }
+
+  get canCustomEdit() {
+    return true;
+  }
+
   get state() {
     if (this.spec?.paused) {
       return 'Paused';

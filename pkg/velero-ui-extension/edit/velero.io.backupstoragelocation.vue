@@ -55,18 +55,19 @@ export default {
   },
 
   data() {
+    // Initialize spec for new resources
     if (!this.value.spec) {
       this.value.spec = {
-        provider:       '',
-        default:        false,
-        accessMode:     'ReadWrite',
-        backupSyncPeriod: '',
+        provider:           '',
+        default:            false,
+        accessMode:         'ReadWrite',
+        backupSyncPeriod:   '',
         validationFrequency: '',
-        credential:     {
+        credential:         {
           name: '',
           key:  'cloud',
         },
-        objectStorage:  {
+        objectStorage: {
           bucket: '',
           prefix: '',
           caCert: '',
@@ -75,12 +76,20 @@ export default {
       };
     }
 
-    // Ensure credential exists
-    if (!this.value.spec.credential) {
+    // Ensure credential exists and has proper structure for both create and edit
+    if (!this.value.spec.credential || typeof this.value.spec.credential !== 'object') {
       this.$set(this.value.spec, 'credential', {
         name: '',
         key:  'cloud',
       });
+    } else {
+      // Ensure credential has name and key properties
+      if (this.value.spec.credential.name === undefined) {
+        this.$set(this.value.spec.credential, 'name', '');
+      }
+      if (this.value.spec.credential.key === undefined) {
+        this.$set(this.value.spec.credential, 'key', 'cloud');
+      }
     }
 
     // Ensure objectStorage exists
@@ -137,6 +146,34 @@ export default {
 
     isView() {
       return this.mode === 'view';
+    },
+
+    secretKeyOptions() {
+      // Get keys from the selected secret
+      const selectedSecretName = this.value.spec.credential?.name;
+
+      if (!selectedSecretName) {
+        return [{ label: 'cloud', value: 'cloud' }];
+      }
+
+      const bslNamespace = this.value.metadata?.namespace;
+      const selectedSecret = this.secrets.find((s) => {
+        const secretNs = s.metadata?.namespace;
+        const secretName = s.metadata?.name;
+
+        return secretName === selectedSecretName &&
+               (secretNs === bslNamespace || secretNs === 'velero');
+      });
+
+      if (!selectedSecret || !selectedSecret.data) {
+        return [{ label: 'cloud', value: 'cloud' }];
+      }
+
+      // Return all keys from the secret's data
+      return Object.keys(selectedSecret.data).map((key) => ({
+        label: key,
+        value: key,
+      }));
     },
   },
 
@@ -295,12 +332,14 @@ export default {
             />
           </div>
           <div class="col span-6">
-            <LabeledInput
+            <LabeledSelect
               v-model:value="value.spec.credential.key"
               :mode="mode"
+              :options="secretKeyOptions"
+              :searchable="true"
               label="Secret Key"
               tooltip="The key within the secret containing the credentials file"
-              placeholder="cloud"
+              placeholder="Select a key..."
             />
           </div>
         </div>

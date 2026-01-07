@@ -1,6 +1,14 @@
 import SteveModel from '@shell/plugins/steve/steve-class';
 
 export default class VeleroRestore extends SteveModel {
+  get canUpdate() {
+    return true;
+  }
+
+  get canCustomEdit() {
+    return true;
+  }
+
   get state() {
     return this.status?.phase || 'Unknown';
   }

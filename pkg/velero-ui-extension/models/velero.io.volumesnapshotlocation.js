@@ -1,6 +1,14 @@
 import SteveModel from '@shell/plugins/steve/steve-class';
 
 export default class VeleroVolumeSnapshotLocation extends SteveModel {
+  get canUpdate() {
+    return true;
+  }
+
+  get canCustomEdit() {
+    return true;
+  }
+
   get provider() {
     return this.spec?.provider || '-';
   }
