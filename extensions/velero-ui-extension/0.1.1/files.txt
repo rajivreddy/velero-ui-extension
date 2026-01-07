@@ -1,0 +1,15 @@
+plugin/img/document.01e5b66a.svg
+plugin/img/harvester.20240f8a.png
+plugin/package.json
+plugin/velero-ui-extension-0.1.1.umd.min.182.js
+plugin/velero-ui-extension-0.1.1.umd.min.182.js.map
+plugin/velero-ui-extension-0.1.1.umd.min.29.js
+plugin/velero-ui-extension-0.1.1.umd.min.29.js.map
+plugin/velero-ui-extension-0.1.1.umd.min.37.js
+plugin/velero-ui-extension-0.1.1.umd.min.37.js.map
+plugin/velero-ui-extension-0.1.1.umd.min.60.js
+plugin/velero-ui-extension-0.1.1.umd.min.60.js.map
+plugin/velero-ui-extension-0.1.1.umd.min.detail.js
+plugin/velero-ui-extension-0.1.1.umd.min.detail.js.map
+plugin/velero-ui-extension-0.1.1.umd.min.js
+plugin/velero-ui-extension-0.1.1.umd.min.js.map
